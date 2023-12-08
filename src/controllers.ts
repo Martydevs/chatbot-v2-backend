@@ -48,7 +48,11 @@ export const ChatCompletion = async (req: Request, res: Response) => {
       max_tokens: 50,
       temperature: 0.9,
     });
-    return res.status(200).json({ ...response, data: completion });
+    if(body.messages[0].content === "" || body.messages[0].content === undefined) {
+      res.status(400).json({ data: "No entendí, repite otra vez tu respuesta." })
+    } else {
+      res.status(200).json({ ...response, data: completion });
+    }
   } catch (error) {
     res.status(400).json({ error });
   }
